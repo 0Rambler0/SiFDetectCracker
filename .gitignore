@@ -1,0 +1,6 @@
+*.pth
+*.log
+*.h5
+*.pt
+*.jpg
+*.pyc

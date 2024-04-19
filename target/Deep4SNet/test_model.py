@@ -5,7 +5,7 @@ import os
 import numpy as np
 import shutil
 
-def load_model(path):
+def get_model(path):
     model_name = os.path.join(path, "model_Deep4SNet.h5")
     weights_model = os.path.join(path, "weights_Deep4SNet.h5")
     model = models.load_model(model_name)
@@ -20,7 +20,7 @@ def load_img(path):
 
     return img
 
-def predict(img, model):
+def predict_img(img, model):
     p = [0, 0]
     classes = model.predict(img)
     # classes = model(img)
@@ -46,8 +46,8 @@ def AudioConvert(read_path, save_path):
     os.system('matlab -nosplash -nodesktop -r gen_pic_from_dir')
     os.chdir('/home/dslab/hx/vfuzz/media/hx_workspace/SiFDetectCracker/refactor_project')
 
-def predict_pipeline(model_path, file_path, save_path):
-    model = load_model(model_path)
+def predict(model, file_path, save_path):
+    # model = load_model(model_path)
     if not os.path.exists(save_path):
         os.mkdir(save_path)
     print('start audio convert')
@@ -65,7 +65,7 @@ def predict_pipeline(model_path, file_path, save_path):
         count += 1
         img_code = int(img_name.split('.')[0]) - 1
         img = load_img(os.path.join(save_path, img_name))
-        result = predict(img, model)
+        result = predict_img(img, model)
         if result[0] > 0.5:
             pass_count += 1
             f_list[img_code] = 1

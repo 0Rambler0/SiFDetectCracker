@@ -51,17 +51,24 @@ class Args():
         self.is_mask = False
         self.is_trainable = False
 
-def predict(audio_path, model_path):
+def get_model(model_path):
     args = Args()
     OUTPUT_CLASSES = 2
-
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
     genotype = eval(args.arch)
     model = Network(args.init_channels, args.layers, args, OUTPUT_CLASSES, genotype)
     model.drop_path_prob = 0.0
     model.load_state_dict(torch.load(os.path.join(model_path,'epoch_66.pth'), map_location=device))
     model.eval()
     model.cuda()
+
+    return model 
+
+def predict(audio_path, model):
+    args = Args()
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    genotype = eval(args.arch)
     # print(model)
     # model = model.to(device=device)
     eval_set = EvalDataSet(audio_path)

@@ -227,7 +227,7 @@ class SiFDetectCracker():
             elif mode == "no_time":
                 new_X = Clip(self.fake_sample+delta)
             elif mode == "no_noise":
-                new_X = self.add_time_perturbation(self.fake_sample, delta)
+                new_X = self.add_time_perturbation(new_X, delta)
             else:
                 raise "perturbation mode error, please check your code"
             wavfile.write(os.path.join(path,str(code)+'.wav'), sr, (32768*new_X).astype(np.int16))
@@ -261,7 +261,9 @@ class SiFDetectCracker():
 
         return max_perturbation
 
-    def param_search(self, max_iteration_num, tmp_save_path, model_path, target, target_name, sr=16000, mode='normal'):
+    def param_search(self, max_iteration_num, tmp_save_path, 
+                     model, target, target_name, 
+                     sr=16000, mode='normal', is_label_only=False):
         iteration = 0
         error_count = 0 #the count of mu > threshold_n
         fail_count = 0 #the count of pass rate = 0
@@ -278,7 +280,7 @@ class SiFDetectCracker():
         print('start parameter search')
         for iteration in range(1, max_iteration_num+1):
             print("{:*^50s}".format("new iteration"))
-            print('iteration {} start'.format(iteration))
+            print('iteration {} start'.format(iteration), flush=True)
             start_time = time.time()
             if mode != 'no_noise':
                 print('perturbation generating ...')
@@ -302,13 +304,13 @@ class SiFDetectCracker():
                 print('start prediction')
                 if target_name == 'Deep4SNet':
                     img_save_path = os.path.join(os.getcwd(), 'target/Deep4SNet/audio_img', str(iteration))
-                    score_list, pass_rate = target(model_path, new_path, img_save_path)
+                    score_list, pass_rate = target(model, new_path, img_save_path)
                 else:
-                    score_list, min_score, pass_rate = target(new_path, model_path)
+                    score_list, min_score, pass_rate = target(new_path, model)
                 print('prediction over')
                 print('prediction time: {}'.format(time.time()-tmp_time1))
                 update_start_time = time.time()
-                self.f_list = score_list if target_name=='Deep4SNet' else Loss(score_list, min_score)
+                self.f_list = score_list if is_label_only else Loss(score_list, min_score)
                 # f_ad_list = LossAdjust(f_list, self.perturbation_list)
                 self.Z_score()
                 shutil.rmtree(new_path)
@@ -437,7 +439,7 @@ class SiFDetectCracker():
                     img_save_path = os.path.join(os.getcwd(), 'target/Deep4SNet/audio_img', str(iteration))
                     score_list, pass_rate = target(new_path, img_save_path)
                 else:
-                    score_list, min_score, pass_rate = target(new_path, model_path)
+                    score_list, min_score, pass_rate = target(new_path, model)
                 print('prediction over')
                 update_start_time = time.time()
                 self.f_list = score_list if target=='Deep4SNet' else Loss(score_list, min_score)
@@ -467,7 +469,7 @@ class SiFDetectCracker():
 
         return iteration, avg_time
     
-    def evaluate(self, population, save_path, model_path, target, target_name, mode):
+    def evaluate(self, population, save_path, model, target, target_name, mode):
         pass_rate_list = []
         save_path = os.path.join(save_path, mode, 'data')
         print('Start evaluation')
@@ -512,9 +514,9 @@ class SiFDetectCracker():
             print('adversarial samples generate over')
             if target_name == 'Deep4SNet':
                 img_save_path = os.path.join(os.getcwd(), 'target/Deep4SNet/audio_img', 'eval')
-                score_list, pass_rate = target(model_path, new_path, img_save_path)
+                score_list, pass_rate = target(model, new_path, img_save_path)
             else:
-                score_list, min_score, pass_rate = target(new_path, model_path)
+                score_list, min_score, pass_rate = target(new_path, model)
             pass_rate_list.append(pass_rate)
             print('silence factor:%f    pass rate:%f%%' %(silence_factor, pass_rate*100))
 

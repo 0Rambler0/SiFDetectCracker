@@ -1,6 +1,6 @@
 % parpool(38);
-read_path = '/home/dslab/hx/vfuzz/media/tmp/15/';
-save_path = '/home/dslab/hx/vfuzz/media/hx_workspace/SiFDetectCracker/refactor_project/target/Deep4SNet/audio_img/15/';
+read_path = '/home/dslab/hx/vfuzz/media/hx_workspace/SiFDetectCracker/exp_data/SiFDetectCracker_exp/normal/data/Deep4SNet/LA_E_7552985/0.05/';
+save_path = '/home/dslab/hx/vfuzz/media/hx_workspace/SiFDetectCracker/refactor_project/target/Deep4SNet/audio_img/eval/';
 ;Path = strcat(read_path);
 File = dir(fullfile(Path, '*.wav'));
 Filename = {File.name};
