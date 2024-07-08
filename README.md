@@ -1,6 +1,6 @@
 # Introduction
 
-This repository contains our implementation of the paper published in the ACM MultiMedia 2023, "SiFDetectCracker: An Adversarial Attack Against Fake Voice Detection Based on Speaker-Irrelative Features".
+This repository presents SiFDetectCracker, an adversarial attack tool aimed at fake voice detection systems. The relevant paper was published in the ACM MultiMedia conference in 2023., "SiFDetectCracker: An Adversarial Attack Against Fake Voice Detection Based on Speaker-Irrelative Features".
 
 [Paper link here](https://dl.acm.org/doi/abs/10.1145/3581783.3613841)
 
@@ -250,6 +250,21 @@ Notice that the parameter "mode" include "normal", "no_time" and "no_noise", whi
 
 Please refer to the command in the [Usage](#usage) part.
 
+
+
+
+# Contribution Guidelines
+We welcome contributions from the open-source community to enhance SiFDetectCracker 's capabilities in securing data sources. To contribute:
+
+* Fork the SiFDetectCracker repository to your GitHub account.
+* Create a new branch from the main branch.
+* Follow the project's coding standards and style guidelines.
+* Write clear, concise commit messages.
+* Include test cases for new features or modifications.
+* Update the "README.md" file for any changes or new features.
+* Submit a pull request to the main branch.
+* Maintainers will review and collaborate with you to address any concerns.
+* Approved contributions will be merged into the main codebase.
 
 # License
 ```
