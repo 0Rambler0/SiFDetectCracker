@@ -268,7 +268,7 @@ We welcome contributions from the open-source community to enhance SiFDetectCrac
 
 # License
 ```
-Copyright (c) 2021-present NAVER Corp.
+Copyright (c) 2024-present NAVER Corp.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
